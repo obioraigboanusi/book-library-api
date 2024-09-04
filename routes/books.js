@@ -1,23 +1,21 @@
+const {
+    getAllBooks,
+    createBook,
+    getSingleBook,
+    updateBook,
+    deleteBook,
+} = require('../controllers/book');
+
 const booksRouter = require('express').Router();
 
-booksRouter.get('/', () => {
-    console.log('Get all books');
-});
+booksRouter.get('/', getAllBooks);
 
-booksRouter.post('/', () => {
-    console.log('Created book');
-});
+booksRouter.post('/', createBook);
 
-booksRouter.get('/:id', () => {
-    console.log('Get a book');
-});
+booksRouter.get('/:id', getSingleBook);
 
-booksRouter.patch('/:id', () => {
-    console.log('Update a book');
-});
+booksRouter.patch('/:id', updateBook);
 
-booksRouter.delete('/:id', () => {
-    console.log('Delete a book');
-});
+booksRouter.delete('/:id', deleteBook);
 
 module.exports = booksRouter;
