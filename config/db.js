@@ -6,8 +6,8 @@ const connectDB = async () => {
     try {
         await mongoose.connect(db);
         console.log('Database connection established');
+        // eslint-disable-next-line no-unused-vars
     } catch (err) {
-        console.error(err.message);
         process.exit(1);
     }
 };

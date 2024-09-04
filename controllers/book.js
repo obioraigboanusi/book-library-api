@@ -5,8 +5,8 @@ exports.getAllBooks = async (req, res) => {
     try {
         const books = await Book.find();
         res.status(200).json(books);
+        // eslint-disable-next-line no-unused-vars
     } catch (err) {
-        console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
@@ -21,7 +21,6 @@ exports.createBook = async (req, res) => {
         await newBook.save();
         res.status(201).json(newBook);
     } catch (err) {
-        console.log({ err });
         res.status(400).json({ error: err.message, details: err.errors });
     }
 };
@@ -34,7 +33,6 @@ exports.getSingleBook = async (req, res) => {
         }
         res.status(200).json(book);
     } catch (err) {
-        console.error(err.message);
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
@@ -52,7 +50,6 @@ exports.updateBook = async (req, res) => {
 
         res.status(200).json(book);
     } catch (err) {
-        console.error(err.message);
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
@@ -65,7 +62,6 @@ exports.deleteBook = async (req, res) => {
         await Book.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Book removed successfully' });
     } catch (err) {
-        console.error(err.message);
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
