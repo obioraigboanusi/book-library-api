@@ -22,7 +22,7 @@ exports.createBook = async (req, res) => {
         res.status(201).json(newBook);
     } catch (err) {
         console.log({ err });
-        res.status(400).json({ error: err.message });
+        res.status(400).json({ error: err.message, details: err.errors });
     }
 };
 
@@ -38,7 +38,7 @@ exports.getSingleBook = async (req, res) => {
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
-        res.status(500).send('Server Error');
+        res.status(500).send('Failed to get book');
     }
 };
 
@@ -46,8 +46,8 @@ exports.updateBook = async (req, res) => {
     try {
         const book = await Book.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body }
-            //     { new: true }
+            { $set: req.body },
+            { new: true }
         );
 
         res.status(200).json(book);
@@ -56,25 +56,19 @@ exports.updateBook = async (req, res) => {
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
-        res.status(500).send('Server Error');
+        res.status(500).send('Failed to update book');
     }
 };
 
 exports.deleteBook = async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
-
-        if (!book) {
-            return res.status(404).json({ message: 'Not found' });
-        }
-
-        await book.remove();
+        await Book.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Book removed successfully' });
     } catch (err) {
         console.error(err.message);
         if (err.kind === 'ObjectId') {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
-        res.status(500).send('Server Error');
+        res.status(500).send('Failed to delete book');
     }
 };
